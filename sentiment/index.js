@@ -38,7 +38,7 @@ app.post('/sentiment', async (req, res) => {
         let sentiment = "neutral";
 
         // Task 5: set sentiment to negative or positive based on score rules
-        sentiment = analysisResult < 0 ? "negative" : ((analysisResult >= 0 && analysisResult <= 0.33) ? sentiment : "positve");
+        sentiment = analysisResult < 0 ? "negative" : ((analysisResult >= 0 && analysisResult <= 0.33) ? sentiment : "positive");
 
         // Logging the result
         logger.info(`Sentiment analysis result: ${analysisResult}`);
