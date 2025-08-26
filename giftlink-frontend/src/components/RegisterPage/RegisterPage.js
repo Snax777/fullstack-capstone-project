@@ -24,14 +24,50 @@ function RegisterPage() {
 
                         <div className="mb-4">
 
-                            <label htmlFor="firstName" className="form label"> FirstName</label><br>
+                            <label htmlFor="firstName" className="form label"> First Name</label><br />
                             <input
                             id="firstName"
                             type="text"
                             className="form-control"
-                            placeholder="Enter your firstName"
+                            placeholder="Enter your first name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-4">
+
+                            <label htmlFor="lastName" className="form label"> Last Name</label><br />
+                            <input
+                            id="lastName"
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter your last name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-4">
+
+                            <label htmlFor="email" className="form label"> Email</label><br />
+                            <input
+                            id="email"
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-4">
+
+                            <label htmlFor="password" className="form label">Passwordd</label><br />
+                            <input
+                            id="password"
+                            type="password"
+                            className="form-control"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
 
