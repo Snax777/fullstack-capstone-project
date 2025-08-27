@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
                 user: {id: theUser._id.toString()},
             }
 
-            jwt.sign(payload, JWT_SECRET);
+            const authtoken = jwt.sign(payload, JWT_SECRET);
             logger.info('User logged in successfully');
             res.json({authtoken, userName, userEmail });
         } else {
@@ -97,5 +97,52 @@ router.post('/login', async (req, res) => {
 
     }
 });
+
+router.put('/update', async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        const email = req.headers.email;
+
+        if (!errors.isEmpty()) {
+            logger.error('Validation error(s) in update request', errors.array());
+
+            return res.status(404).json({errors: errors.array()});
+        }
+
+        if (!email) {
+            logger.error('Email not found in request headers');
+
+            return res.status(404).json({error: 'Email not found in request headers'});
+        }
+
+        const db = await connectToDatabase();
+        const collection = db.collection('users');
+        const existingUser = await collection.findOne({email: email});
+
+        if (!existingUser) {
+            logger.error('User does not exist');
+
+            return res.status(404).json({error: 'User does not exist'});
+        }
+
+        existingUser.firstName = req.body.name;
+        existingUser.updatedAt = new Date();
+
+        const updateUserdetails = await collection.findOneAndUpdate(
+            {email},
+            {$set: existingUser},
+            {returnDocument: 'after'}
+        );
+        const payload = {
+            user: {id: existingUser._id.toString()},
+        }
+        const authtoken = jwt.sign(payload, JWT_SECRET);
+
+        logger.info('User details successfully updated');
+        res.json({authtoken});
+    } catch (e) {
+        return res.status(500).send('Internal Server Error');
+    }
+})
 
 module.exports = router;
