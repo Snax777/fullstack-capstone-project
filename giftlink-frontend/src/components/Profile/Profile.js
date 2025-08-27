@@ -5,21 +5,21 @@ import {urlConfig} from '../../config';
 import { useAppContext } from '../../context/AuthContext';
 
 const Profile = () => {
-  const [userDetails, setUserDetails] = useState({});
+ const [userDetails, setUserDetails] = useState({});
  const [updatedDetails, setUpdatedDetails] = useState({});
  const {setUserName} = useAppContext();
  const [changed, setChanged] = useState("");
 
  const [editMode, setEditMode] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const authtoken = sessionStorage.getItem("auth-token");
-    if (!authtoken) {
-      navigate("/app/login");
-    } else {
-      fetchUserProfile();
-    }
-  }, [navigate]);
+ const navigate = useNavigate();
+ useEffect(() => {
+   const authtoken = sessionStorage.getItem("auth-token");
+   if (!authtoken) {
+     navigate("/app/login");
+   } else {
+     fetchUserProfile();
+   }
+ }, [navigate]);
 
   const fetchUserProfile = async () => {
     try {
@@ -66,15 +66,24 @@ const handleSubmit = async (e) => {
     const payload = { ...updatedDetails };
     const response = await fetch(`${urlConfig.backendUrl}/api/auth/update`, {
       //Step 1: Task 1
+      method: 'PUT',
       //Step 1: Task 2
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authtoken}`,
+        'Email': email,
+    },
       //Step 1: Task 3
+      body: JSON.stringify(payload),
     });
 
     if (response.ok) {
       // Update the user details in session storage
       //Step 1: Task 4
+      setUserName(updatedDetails.name);
       //Step 1: Task 5
       setUserDetails(updatedDetails);
+      sessionStorage.setItem('name', updatedDetails.name);
       setEditMode(false);
       // Display success message to the user
       setChanged("Name Changed Successfully!");
