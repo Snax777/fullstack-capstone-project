@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './LoginPage.css';
-import urlConfig from '../../config';
-import useAppContext from '../../context/AuthContext';
+import { urlConfig } from '../../config';
+import { useAppContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -80,7 +80,7 @@ function LoginPage() {
                         onChange={(e) => {setPassword(e.target.value); setWrongValue('')}}
                     />
 
-                    <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{wrongValu}</span>
+                    <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{wrongValue}</span>
                 </div>
 
                 <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
